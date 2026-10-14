@@ -1,0 +1,33 @@
+import java.util.Arrays;
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        // Base case: if amount is 0, we need 0 coins
+        if (amount == 0) {
+            return 0;
+        }
+        
+        // Create an array to store the minimum coins for each amount up to 'amount'
+        int[] dp = new int[amount + 1];
+        
+        // Fill the array with a sentinel value representing infinity
+        // We use amount + 1 because the maximum possible coins needed would be 'amount' (using 1-value coins)
+        Arrays.fill(dp, amount + 1);
+        
+        // 0 coins are needed to make an amount of 0
+        dp[0] = 0;
+        
+        // Compute minimum coins for all sub-amounts from 1 to 'amount'
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                // Check if the coin denomination can fit into the current sub-amount
+                if (i - coin >= 0) {
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+        
+        // If dp[amount] remains greater than 'amount', it means the amount cannot be made
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+}
