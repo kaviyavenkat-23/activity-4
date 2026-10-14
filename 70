@@ -1,0 +1,22 @@
+class Solution {
+    public int climbStairs(int n) {
+        // Base cases
+        if (n <= 2) {
+            return n;
+        }
+        
+        // variables to store the number of ways for the previous two steps
+        int oneStepBehind = 2; // Ways to reach step 2
+        int twoStepsBehind = 1; // Ways to reach step 1
+        int currentWays = 0;
+        
+        // Iteratively calculate ways up to step n
+        for (int i = 3; i <= n; i++) {
+            currentWays = oneStepBehind + twoStepsBehind;
+            twoStepsBehind = oneStepBehind;
+            oneStepBehind = currentWays;
+        }
+        
+        return currentWays;
+    }
+}
