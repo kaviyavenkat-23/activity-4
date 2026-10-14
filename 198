@@ -1,0 +1,26 @@
+class Solution {
+    public int rob(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+
+        // Tracks maximum profit up to two houses behind
+        int robTwoHousesAgo = 0;
+        // Tracks maximum profit up to one house behind
+        int robOneHouseAgo = 0;
+
+        for (int currentHouseMoney : nums) {
+            // Decide whether to rob or skip the current house
+            int currentMax = Math.max(robOneHouseAgo, robTwoHousesAgo + currentHouseMoney);
+            
+            // Move our tracking window forward for the next iteration
+            robTwoHousesAgo = robOneHouseAgo;
+            robOneHouseAgo = currentMax;
+        }
+
+        return robOneHouseAgo;
+    }
+}
